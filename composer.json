@@ -1,0 +1,21 @@
+{
+  "name": "vendor_name/activities-generator",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Gabriel",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "UF1\\Controllers\\": "controllers/",
+      "UF1\\Models\\": "models/",
+      "UF1\\Enums\\": "enums/"
+    }
+  }
+}
