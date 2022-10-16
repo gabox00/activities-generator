@@ -21,7 +21,7 @@ if(isset($_POST['activitityCreated'])){
     }
     else{
         $activityController = new ActivityController();
-        $_SESSION['activities'][] = $activityController->create($title, $date, $city, $type, $paymentMethod, $description);
+        $_SESSION['user']['activities'][] = $activityController->create($title, $date, $city, $type, $paymentMethod, $description);
     }
 }
 

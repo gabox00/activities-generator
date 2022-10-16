@@ -8,7 +8,10 @@ if(isset($_POST['user_login'])){
     $username = $_POST['user_username'];
     $password = $_POST['user_password'];
     if($username == 'ifp' && $password == '2022') {
-        $_SESSION['user'] = $username;
+        $_SESSION['user'] = [
+            'username' => $username,
+            'activities' => []
+        ];
         unset($_SESSION['errors']['user']['login']);
     }
     else{

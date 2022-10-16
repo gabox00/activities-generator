@@ -6,12 +6,12 @@ use UF1\Enums\ActivityType;
 ?>
 
 <div class="container">
-    <div class="h-100 d-flex justify-content-<?=!empty($_SESSION['activities']) ? 'around' : 'center'?> align-items-center ">
+    <div class="h-100 d-flex justify-content-<?=!empty($_SESSION['user']['activities']) ? 'around' : 'center'?> align-items-center ">
         <div>
-            <?php if(!empty($_SESSION['activities'])): ?>
+            <?php if(!empty($_SESSION['user']['activities'])): ?>
                 <h3>Actividades</h3>
                 <div class="cards">
-                    <?php foreach($_SESSION['activities'] as $activity):?>
+                    <?php foreach($_SESSION['user']['activities'] as $activity):?>
                         <div class="card">
                             <img src="./assets/img/<?=$activity->type->value?>" class="card-img-top" alt="<?=$activity->type->value?>">
                             <div class="card-body">
