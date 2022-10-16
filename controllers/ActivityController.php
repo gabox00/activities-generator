@@ -11,4 +11,3 @@ class ActivityController
         return new Activity($title, $date, $city, $type, $paymentMethod, $description);
     }
 }
-
