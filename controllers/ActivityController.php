@@ -6,10 +6,9 @@ use UF1\Models\Activity;
 
 class ActivityController
 {
-    public function create($title,$date,$city,$type,$paymentMethod,$description): null|Activity
+    public function create($title,$date,$city,$type,$paymentMethod,$description): Activity
     {
-        return new Activity($title, $date, $city, $type, $paymentMethod,$description);
+        return new Activity($title, $date, $city, $type, $paymentMethod, $description);
     }
 }
-
 

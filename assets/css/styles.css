@@ -1,0 +1,10 @@
+.cards{
+    overflow-y:auto;
+    overflow-x:hidden;
+    max-height:24rem;
+}
+
+.card{
+    width:18rem !important;
+    margin-bottom: 0.5em;
+}
