@@ -11,8 +11,8 @@ class User
     private string $name;
     private string $email;
     private string $password;
-    private string $created_at;
-    private string $updated_at;
+    private string $createdAt;
+    private string $updatedAt;
 
     private $db;
 
@@ -93,7 +93,7 @@ class User
      */
     public function getCreatedAt(): string
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
@@ -101,7 +101,7 @@ class User
      */
     public function getUpdatedAt(): string
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     public function save(): bool{
@@ -124,6 +124,18 @@ class User
             }
         }
         return false;
+    }
+
+    public function getActivities(): array{
+        $sql = "SELECT * FROM activities WHERE user_id = {$this->getId()}";
+        $rs = $this->db->query($sql);
+        $activities = [];
+        if($rs){
+            while ($activity = $rs->fetch_object()){
+                $activities[] = (new Activity())->builder($activity);
+            }
+        }
+        return $activities;
     }
 
 

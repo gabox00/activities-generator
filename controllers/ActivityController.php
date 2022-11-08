@@ -19,8 +19,19 @@ class ActivityController
         $description = $_POST['description-activity'] ?? null;
 
         if(!(empty($title) || empty($date) || empty($city) || empty($type) || empty($paymentMethod) || empty($description))) {
-            $_SESSION['user']['activities'][] = new Activity($title, $date, $city, $type, $paymentMethod, $description);
+            $activity = new Activity();
+            $activity->setUserId($_SESSION['user']['id']);
+            $activity->setTitle($title);
+            $activity->setDate($date);
+            $activity->setCity($city);
+            $activity->setType($type);
+            $activity->setPaymentMethod($paymentMethod);
+            $activity->setDescription($description);
+            $activity->save()
+                ? $_SESSION['user']['activities'][] = $activity
+                : $_SESSION['errors']['activity']['create'] = 'No se ha podido crear la actividad';
         }
+
         HomeController::index();
     }
 }

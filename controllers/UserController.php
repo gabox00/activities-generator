@@ -2,6 +2,7 @@
 
 namespace UF1\Controllers;
 use UF1\Models\User;
+use UF1\Models\Activity;
 
 class UserController{
 
@@ -49,8 +50,9 @@ class UserController{
 
         if($user->login($user->getEmail(), $password)){
             $_SESSION['user'] = [
-                'username' => $user->getName(),
-                'activities' => []
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'activities' => $user->getActivities()
             ];
             unset($_SESSION['errors']['user']['login']);
         }
@@ -68,8 +70,9 @@ class UserController{
         $userModel = new User();
         if($user = $userModel->login($email, $password)){
             $_SESSION['user'] = [
-                'username' => $user->getName(),
-                'activities' => []
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'activities' => $user->getActivities()
             ];
             unset($_SESSION['errors']['user']['login']);
         }

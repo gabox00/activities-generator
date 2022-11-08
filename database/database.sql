@@ -19,6 +19,7 @@ CREATE TABLE activities(
    type                enum('cine','comida','copas','cultura','musica','viajes') not null,
    payment_method      enum('gratis','pago') not null,
    description         text null,
+   date                datetime default current_timestamp() null,
    created_at          datetime default current_timestamp() null,
    updated_at          datetime default current_timestamp() null on update current_timestamp(),
    CONSTRAINT fk_user_activity FOREIGN KEY(user_id) REFERENCES users(id)
