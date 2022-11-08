@@ -48,7 +48,7 @@ class UserController{
             HomeController::index();
         }
 
-        if($user::login($user->getEmail(), $password)){
+        if($user->login($user->getEmail(), $password)){
             $_SESSION['user'] = [
                 'username' => $user->getName(),
                 'activities' => []
