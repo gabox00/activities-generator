@@ -2,7 +2,7 @@
     <div>
         <a class="navbar-brand" href="index.php" style="margin-left: 10px">IFP DAW</a>
     </div>
-    <?php if(!empty($_SESSION['user'])): ?>
+    <?php if(isset($_SESSION['user']['username'])): ?>
         <div class="d-flex align-items-center">
             <b style="padding-right: 1rem"><?= $_SESSION['user']['username'] ?></b>
             <form class="form-inline my-2 my-lg-0" style="padding-right: 0.5rem" action="?controller_option=UserController&method_option=logout" method="post">

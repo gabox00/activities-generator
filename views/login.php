@@ -17,6 +17,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" name="user_login" class="btn btn-primary btn-block">Log in</button>
+                <a href="?controller_option=RegisterController&method_option=index" class="btn btn-dark btn-block">Register</a>
             </div>
         </form>
     </div>
