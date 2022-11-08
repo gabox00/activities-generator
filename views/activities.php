@@ -64,7 +64,7 @@ use UF1\Enums\ActivityType;
                     <label for="description-activity" class="form-label">Descripción</label>
                     <textarea id="description" name="description-activity" class="form-control" placeholder="Descripción"><?=$activity->description ?? ''?></textarea>
                 </div>
-                <button type="submit" name="activitityCreated" class="btn btn-primary mt-2">Crear Actividad</button>
+                <button type="submit" name="create_activity" class="btn btn-primary mt-2">Crear Actividad</button>
             </form>
         </div>
     </div>

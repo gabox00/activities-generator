@@ -2,6 +2,7 @@
 
 namespace UF1\Models;
 
+use Exception;
 use UF1\Config\Database;
 
 class User
@@ -104,8 +105,13 @@ class User
     }
 
     public function save(): bool{
-        $sql = "INSERT INTO users VALUES(null,'{$this->getName()}','{$this->getEmail()}','{$this->getPassword()}',null,null)";
-        return $this->db->query($sql);
+        try {
+            $sql = "INSERT INTO users VALUES(null,'{$this->getName()}','{$this->getEmail()}','{$this->getPassword()}',NOW(),NOW())";
+            return $this->db->query($sql);
+        }
+        catch (Exception $e){
+            return false;
+        }
     }
 
     public function login($email,$password): bool|User{

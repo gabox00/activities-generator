@@ -11,5 +11,6 @@ class HomeController
         $html = 'index.php';
         $url = "http://$host$ruta/$html";
         header("Location: $url");
+        die();
     }
 }

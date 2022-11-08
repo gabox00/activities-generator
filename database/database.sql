@@ -6,8 +6,8 @@ CREATE TABLE users(
     name                varchar(100) not null,
     email               varchar(255) not null,
     password            varchar(255) not null,
-    created_at          datetime default current_timestamp() null,
-    updated_at          datetime default current_timestamp() null on update current_timestamp(),
+    created_at          datetime default current_timestamp() not null,
+    updated_at          datetime default current_timestamp() on update current_timestamp() not null,
     CONSTRAINT uq_email UNIQUE(email)
 )ENGINE=InnoDb;
 

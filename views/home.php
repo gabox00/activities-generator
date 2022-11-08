@@ -18,10 +18,12 @@ if(isset($_SESSION['user']['register'])) {
     require_once realpath('views/register.php');
     unset($_SESSION['user']);
 }
+else {
+    empty($_SESSION['user'])
+        ? require_once realpath('views/login.php')
+        : require_once realpath('views/activities.php');
+}
 
-empty($_SESSION['user'])
-    ? require_once realpath('views/login.php')
-    : require_once realpath('views/activities.php');
 ?>
 </body>
 </html>
