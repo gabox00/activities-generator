@@ -65,18 +65,6 @@ class UserController{
         $email = $_POST['email'] ?? null;
         $password = $_POST['password'] ?? null;
 
-        $errors = [];
-
-        //validar password
-        if(empty($password)){
-            $errors['password'] = 'El password no es válido';
-        }
-
-        //validar email
-        if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors['email'] = 'El email no es válido';
-        }
-
         $userModel = new User();
 
         if($user = $userModel->login($email, $password)){
