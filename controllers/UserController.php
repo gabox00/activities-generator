@@ -29,10 +29,10 @@ class UserController{
             $errors['email'] = 'El email no es válido';
         }
 
+        //Si hay errores de validacion
         if(!empty($errors)){
             $_SESSION['errors']['user']['register'] = $errors;
             $_SESSION['user']['register'] = true;
-            HomeController::index();
         }
 
         unset($_SESSION['user']['register']);
@@ -45,7 +45,6 @@ class UserController{
         if(!$user->save()){
             $_SESSION['errors']['user']['register'] = 'No se ha podido registrar el usuario';
             $_SESSION['user']['register'] = true;
-            HomeController::index();
         }
 
         if($user->login($user->getEmail(), $password)){
@@ -54,8 +53,9 @@ class UserController{
                 'activities' => []
             ];
             unset($_SESSION['errors']['user']['login']);
-            HomeController::index();
         }
+
+        HomeController::index();
 
     }
 
@@ -66,18 +66,16 @@ class UserController{
         $password = $_POST['password'] ?? null;
 
         $userModel = new User();
-        $user = $userModel->login($email, $password);
-
-        if(!$user){
-            $_SESSION['errors']['user']['login'] = 'Usuario o password incorrectos';
-            HomeController::index();
+        if($user = $userModel->login($email, $password)){
+            $_SESSION['user'] = [
+                'username' => $user->getName(),
+                'activities' => []
+            ];
+            unset($_SESSION['errors']['user']['login']);
         }
-
-        $_SESSION['user'] = [
-            'username' => $user->getName(),
-            'activities' => []
-        ];
-        unset($_SESSION['errors']['user']['login']);
+        else{
+            $_SESSION['errors']['user']['login'] = 'Usuario o password incorrectos';
+        }
 
         HomeController::index();
     }
