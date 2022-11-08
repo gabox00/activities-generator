@@ -5,7 +5,7 @@
     <?php if(!empty($_SESSION['user'])): ?>
         <div class="d-flex align-items-center">
             <b style="padding-right: 1rem"><?= $_SESSION['user']['username'] ?></b>
-            <form class="form-inline my-2 my-lg-0" style="padding-right: 0.5rem" action="./controllers/UserController.php" method="post">
+            <form class="form-inline my-2 my-lg-0" style="padding-right: 0.5rem" action="?controller_option=UserController&method_option=logout" method="post">
                 <div class="form-group">
                     <button type="submit" name="user_logout" class="btn btn-primary btn-block">Log out</button>
                 </div>

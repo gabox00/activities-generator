@@ -2,24 +2,32 @@
 
 namespace UF1\Controllers;
 
-session_start();
+class UserController{
 
-if(isset($_POST['user_login'])){
-    $username = $_POST['user_username'];
-    $password = $_POST['user_password'];
-    if($username == 'ifp' && $password == '2022') {
-        $_SESSION['user'] = [
-            'username' => $username,
-            'activities' => []
-        ];
-        unset($_SESSION['errors']['user']['login']);
+    public function register(){
+        return null;
     }
-    else{
-        $_SESSION['errors']['user']['login'] = 'Usuario o password incorrectos';
+
+    public function login(){
+        session_start();
+        $username = $_POST['user_username'];
+        $password = $_POST['user_password'];
+        if($username == 'ifp' && $password == '2022') {
+            $_SESSION['user'] = [
+                'username' => $username,
+                'activities' => []
+            ];
+            unset($_SESSION['errors']['user']['login']);
+        }
+        else{
+            $_SESSION['errors']['user']['login'] = 'Usuario o password incorrectos';
+        }
+        HomeController::index();
     }
-    header('Location: ../index.php');
-}
-else if(isset($_POST['user_logout'])){
-    unset($_SESSION['user']);
-    header('Location: ../index.php');
+
+    public function logout(){
+        session_start();
+        unset($_SESSION['user']);
+        HomeController::index();
+    }
 }

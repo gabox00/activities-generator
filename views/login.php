@@ -7,7 +7,7 @@
         <?php endif; ?>
     </div>
     <div class="login-form h-100 d-flex justify-content-center <?=empty($_SESSION['errors']['user']['login']) ? 'align-items-center' : ''?>">
-        <form action="./controllers/UserController.php" method="post">
+        <form action="?controller_option=UserController&method_option=login" method="post">
             <h2 class="text-center mb-3">Log in</h2>
             <div class="form-group mb-3">
                 <input type="text" name="user_username" class="form-control" placeholder="Username" required="required">

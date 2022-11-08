@@ -9,4 +9,5 @@ return array(
     'UF1\\Models\\' => array($baseDir . '/models'),
     'UF1\\Enums\\' => array($baseDir . '/enums'),
     'UF1\\Controllers\\' => array($baseDir . '/controllers'),
+    'UF1\\Config\\' => array($baseDir . '/config'),
 );

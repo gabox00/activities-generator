@@ -31,7 +31,7 @@ use UF1\Enums\ActivityType;
         </div>
         <div>
             <h3>Crear Actividad</h3>
-            <form action="" method="POST">
+            <form action="?controller_option=ActivityController&method_option=create" method="POST">
                 <div class="mb-3">
                     <label for="title-activity" class="form-label">Título</label>
                     <input type="text" id="title" name="title-activity" class="form-control" placeholder="Titulo" value="<?=$activity->title ?? ''?>" required>

@@ -10,12 +10,14 @@
     }
   ],
   "require": {
+    "ext-mysqli": "*"
   },
   "autoload": {
     "psr-4": {
       "UF1\\Controllers\\": "controllers/",
       "UF1\\Models\\": "models/",
-      "UF1\\Enums\\": "enums/"
+      "UF1\\Enums\\": "enums/",
+      "UF1\\Config\\": "config/"
     }
   }
 }

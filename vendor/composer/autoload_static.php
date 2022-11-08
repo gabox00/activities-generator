@@ -12,6 +12,7 @@ class ComposerStaticInitf716448cae7f01d02287dd1481b86f54
             'UF1\\Models\\' => 11,
             'UF1\\Enums\\' => 10,
             'UF1\\Controllers\\' => 16,
+            'UF1\\Config\\' => 11,
         ),
     );
 
@@ -27,6 +28,10 @@ class ComposerStaticInitf716448cae7f01d02287dd1481b86f54
         'UF1\\Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/controllers',
+        ),
+        'UF1\\Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/config',
         ),
     );
 
