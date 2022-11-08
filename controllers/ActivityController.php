@@ -8,9 +8,9 @@ use UF1\Models\Activity;
 
 class ActivityController
 {
-    public function create()
-    {
+    public function create(){
         session_start();
+
         $title = $_POST['title-activity'] ?? null;
         $date = $_POST['date-activity'] ?? null;
         $city = $_POST['city-activity'] ?? null;
