@@ -15,13 +15,13 @@ session_start();
 <?php
 
 if(isset($_SESSION['user']['register'])) {
-    require_once realpath('views/register.php');
+    require_once realpath('views/user/register.php');
     unset($_SESSION['user']);
 }
 else {
     empty($_SESSION['user'])
-        ? require_once realpath('views/login.php')
-        : require_once realpath('views/activities.php');
+        ? require_once realpath('views/user/login.php')
+        : require_once realpath('views/activity/index.php');
 }
 
 ?>
