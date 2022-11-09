@@ -8,7 +8,7 @@ use UF1\Config\Database;
 
 class Activity
 {
-    private int $id;
+    private readonly int $id;
     private int $user_id;
     private string $title;
     private string $date;

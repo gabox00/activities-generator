@@ -137,13 +137,4 @@ class User
         return $activities;
     }
 
-    public function getLastActivity(): Activity|null{
-        $sql = "SELECT * FROM activities WHERE user_id = {$this->getId()} ORDER BY id DESC LIMIT 1";
-        if($rs = $this->db->query($sql)){
-            return (new Activity())->builder($rs->fetch_object());
-        }
-        return null;
-    }
-
-
 }
