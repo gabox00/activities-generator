@@ -187,10 +187,42 @@ class Activity
         return $this->updated_at;
     }
 
-    public function save(): bool
+    public function getActivityById($id): Activity|null {
+        $sql = "SELECT * FROM activities WHERE id = $id";
+        $rs = $this->db->query($sql);
+        return $rs && $rs->num_rows == 1
+            ? $this->builder($rs->fetch_object())
+            : null;
+    }
+
+    public function save(): Activity|bool
     {
         try {
             $sql = "INSERT INTO activities VALUES(NULL, '{$this->user_id}', '{$this->title}', '{$this->city}', '{$this->getType()}', '{$this->getPaymentMethod()}', '{$this->description}', '{$this->date}', NOW(), NOW());";
+            $this->db->query($sql);
+            $lasActivityId = $this->db->insert_id;
+            return $this->getActivityById($lasActivityId);
+        }
+        catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function update(): bool
+    {
+        try {
+            $sql = "UPDATE activities SET title = '{$this->title}', city = '{$this->city}', type = '{$this->getType()}', payment_method = '{$this->getPaymentMethod()}', description = '{$this->description}', date = '{$this->date}', updated_at = NOW() WHERE id = {$this->id};";
+            return $this->db->query($sql);
+        }
+        catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function delete(): bool
+    {
+        try {
+            $sql = "DELETE FROM activities WHERE id = {$this->id};";
             return $this->db->query($sql);
         }
         catch (Exception $e) {

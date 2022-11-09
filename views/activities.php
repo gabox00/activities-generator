@@ -13,7 +13,10 @@ use UF1\Enums\ActivityType;
                 <div class="cards">
                     <?php foreach($_SESSION['user']['activities'] as $activity):?>
                         <div class="card">
-                            <img src="./assets/img/<?=$activity->getType()?>" class="card-img-top" alt="<?=$activity->getType()?>">
+                            <div class="img-wraps">
+                                <a href="?controller_option=ActivityController&method_option=delete&id=<?=$activity->getId()?>" class="closes" title="Delete">×</a>
+                                <img src="./assets/img/<?=$activity->getType()?>" class="card-img-top" alt="<?=$activity->getType()?>">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title"><?=$activity->getTitle()?></h5>
                                 <p class="card-text"><?=$activity->getDescription()?></p>

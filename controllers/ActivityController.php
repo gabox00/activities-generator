@@ -27,11 +27,31 @@ class ActivityController
             $activity->setType($type);
             $activity->setPaymentMethod($paymentMethod);
             $activity->setDescription($description);
-            $activity->save()
+            $activity = $activity->save();
+            $activity
                 ? $_SESSION['user']['activities'][] = $activity
                 : $_SESSION['errors']['activity']['create'] = 'No se ha podido crear la actividad';
         }
 
+        HomeController::index();
+    }
+
+    public function delete(){
+        session_start();
+
+        $id = $_GET['id'] ?? null;
+
+        if(!empty($id)){
+            $activityModel = new Activity();
+            $activity = $activityModel->getActivityById($id);
+            if($activity){
+                $activity->delete()
+                    ? $_SESSION['user']['activities'] = array_filter($_SESSION['user']['activities'], function($activity) use ($id){
+                        return $activity->getId() != $id;
+                    })
+                    : $_SESSION['errors']['activity']['delete'] = 'No se ha podido eliminar la actividad';
+            }
+        }
         HomeController::index();
     }
 }
