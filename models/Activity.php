@@ -8,7 +8,7 @@ use UF1\Config\Database;
 
 class Activity
 {
-    private readonly int $id;
+    private int $id;
     private int $user_id;
     private string $title;
     private string $date;
@@ -88,7 +88,8 @@ class Activity
      */
     public function getDate(): string
     {
-        return $this->date;
+        $date = strtotime($this->date);
+        return date('Y-m-d', $date);
     }
 
     /**
@@ -208,11 +209,12 @@ class Activity
         }
     }
 
-    public function update(): bool
+    public function update(): Activity|bool
     {
         try {
             $sql = "UPDATE activities SET title = '{$this->title}', city = '{$this->city}', type = '{$this->getType()}', payment_method = '{$this->getPaymentMethod()}', description = '{$this->description}', date = '{$this->date}', updated_at = NOW() WHERE id = {$this->id};";
-            return $this->db->query($sql);
+            $this->db->query($sql);
+            return $this->getActivityById($this->id);
         }
         catch (Exception $e) {
             return false;

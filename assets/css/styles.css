@@ -1,11 +1,11 @@
 .cards{
     overflow-y:auto;
     overflow-x:hidden;
-    max-height:24rem;
+    max-height:30rem;
 }
 
 .card{
-    width:18rem !important;
+    width:30rem !important;
     margin-bottom: 0.5em;
 }
 
