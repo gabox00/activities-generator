@@ -189,8 +189,10 @@ class Activity
     }
 
     public function getActivityById($id): Activity|null {
-        $sql = "SELECT * FROM activities WHERE id = $id";
-        $rs = $this->db->query($sql);
+        $stmt = $this->db->prepare('SELECT * FROM activities WHERE id = ?');
+        $stmt->bind_param('s', $id);
+        $stmt->execute();
+        $rs = $stmt->get_result();
         return $rs && $rs->num_rows == 1
             ? $this->builder($rs->fetch_object())
             : null;
@@ -199,8 +201,11 @@ class Activity
     public function save(): Activity|bool
     {
         try {
-            $sql = "INSERT INTO activities VALUES(NULL, '{$this->user_id}', '{$this->title}', '{$this->city}', '{$this->getType()}', '{$this->getPaymentMethod()}', '{$this->description}', '{$this->date}', NOW(), NOW());";
-            $this->db->query($sql);
+            $type = $this->getType();
+            $payment_method = $this->getPaymentMethod();
+            $stmt = $this->db->prepare("INSERT INTO activities VALUES(NULL,?,?,?,?,?,?,?,NOW(),NOW())");
+            $stmt->bind_param('issssss', $this->user_id, $this->title, $this->city, $type, $payment_method, $this->description, $this->date);
+            $stmt->execute();
             $lasActivityId = $this->db->insert_id;
             return $this->getActivityById($lasActivityId);
         }
@@ -212,8 +217,11 @@ class Activity
     public function update(): Activity|bool
     {
         try {
-            $sql = "UPDATE activities SET title = '{$this->title}', city = '{$this->city}', type = '{$this->getType()}', payment_method = '{$this->getPaymentMethod()}', description = '{$this->description}', date = '{$this->date}', updated_at = NOW() WHERE id = {$this->id};";
-            $this->db->query($sql);
+            $type = $this->getType();
+            $payment_method = $this->getPaymentMethod();
+            $stmt = $this->db->prepare("UPDATE activities SET title = ?, city = ?, type = ?, payment_method = ?, description = ?, date = ?, updated_at = NOW() WHERE id = ?");
+            $stmt->bind_param('sssssss', $this->title, $this->city, $type, $payment_method, $this->description, $this->date, $this->id);
+            $stmt->execute();
             return $this->getActivityById($this->id);
         }
         catch (Exception $e) {
@@ -224,8 +232,9 @@ class Activity
     public function delete(): bool
     {
         try {
-            $sql = "DELETE FROM activities WHERE id = {$this->id};";
-            return $this->db->query($sql);
+            $stmt = $this->db->prepare('DELETE FROM activities WHERE id = ?');
+            $stmt->bind_param('s', $this->id);
+            return $stmt->execute();
         }
         catch (Exception $e) {
             return false;

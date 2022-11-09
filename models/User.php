@@ -106,8 +106,12 @@ class User
 
     public function save(): bool{
         try {
-            $sql = "INSERT INTO users VALUES(null,'{$this->getName()}','{$this->getEmail()}','{$this->getPassword()}',NOW(),NOW())";
-            return $this->db->query($sql);
+            $name = $this->getName();
+            $email = $this->getEmail();
+            $password = $this->getPassword();
+            $stmt = $this->db->prepare("INSERT INTO users VALUES(null,?,?,?,NOW(),NOW())");
+            $stmt->bind_param('sss', $name, $email, $password);
+            return $stmt->execute();
         }
         catch (Exception $e){
             return false;
@@ -115,8 +119,10 @@ class User
     }
 
     public function login($email,$password): bool|User{
-        $sql = "SELECT * FROM users WHERE email = '$email';";
-        $rs = $this->db->query($sql);
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE email = ?');
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $rs = $stmt->get_result();
         if($rs && $rs->num_rows == 1){
             $user = $rs->fetch_object();
             if(password_verify($password, $user->password)){
@@ -127,9 +133,12 @@ class User
     }
 
     public function getActivities(): array{
-        $sql = "SELECT * FROM activities WHERE user_id = {$this->getId()}";
+        $id = $this->getId();
+        $stmt = $this->db->prepare('SELECT * FROM activities WHERE user_id = ?');
+        $stmt->bind_param('s', $id);
+        $stmt->execute();
         $activities = [];
-        if($rs = $this->db->query($sql)){
+        if($rs = $stmt->get_result()){
             while ($activity = $rs->fetch_object()){
                 $activities[] = (new Activity())->builder($activity);
             }
