@@ -77,7 +77,7 @@ class ActivityController
      * los valida y edita la actividad
      * Tambien se encarga de guardar el error y editar la actividad en la sesion del usuario
      * @redirect index.php
-     * FORM @POST ?controller_option=ActivityController&method_option=edit
+     * FORM @POST ?controller_option=ActivityController&method_option=update
      */
     public function update(){
         session_start();
