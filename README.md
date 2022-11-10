@@ -8,7 +8,8 @@
 
 IMPORTANTE: REINICIAR EL ORDENADOR
 
-## Composer indicaciones:
-`composer update`
+## Si no existe la carpeta ./vendor, seguir indicaciones:
+- [Descargar composer](https://getcomposer.org/)
+- `composer update`
 
 ### Ejecutar el fichero ./database/database.sql en mysql para tener la base de datos y las tablas creadas
