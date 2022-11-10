@@ -5,6 +5,7 @@ use UF1\Enums\ActivityType;
 
 ?>
 
+<!--Formulario de creacion de actividad-->
 <div>
     <h3>Crear Actividad</h3>
     <form action="?controller_option=ActivityController&method_option=create" method="POST">

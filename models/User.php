@@ -5,6 +5,10 @@ namespace UF1\Models;
 use Exception;
 use UF1\Config\Database;
 
+/**
+ * Class User model of database table user
+ * @package UF1\Models
+ */
 class User
 {
     private int $id;
@@ -16,6 +20,9 @@ class User
 
     private $db;
 
+    /**
+     * User constructor. se conecta a la base de datos
+     */
     public function __construct() {
         $this->db = database::Connect();
     }
@@ -104,6 +111,10 @@ class User
         return $this->updatedAt;
     }
 
+    /**
+     * Metodo para guardar un usuario en la base de datos
+     * @return bool
+     */
     public function save(): bool{
         try {
             $name = $this->getName();
@@ -118,7 +129,13 @@ class User
         }
     }
 
-    public function login($email,$password): bool|User{
+    /**
+     * Metodo para saber si un usuario puede loguearse
+     * @param string $email
+     * @param string $password
+     * @return bool|User
+     */
+    public function login(string $email, string $password): bool|User{
         $stmt = $this->db->prepare('SELECT * FROM users WHERE email = ?');
         $stmt->bind_param('s', $email);
         $stmt->execute();
@@ -132,6 +149,10 @@ class User
         return false;
     }
 
+    /**
+     * Metodo que devuelve las actividades de un usuario
+     * @return array
+     */
     public function getActivities(): array{
         $id = $this->getId();
         $stmt = $this->db->prepare('SELECT * FROM activities WHERE user_id = ?');

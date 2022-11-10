@@ -2,6 +2,7 @@
 session_start();
 ?>
 
+<!--Se define la entructura del html-->
 <html>
 <head>
     <title>Activities-Generator</title>
@@ -14,11 +15,13 @@ session_start();
 </header>
 <?php
 
+//Si se ha elegido registrarte, se muestra el formulario de registro
 if(isset($_SESSION['user']['register'])) {
     require_once realpath('views/user/register.php');
     unset($_SESSION['user']);
 }
 else {
+    //Si no se ha elegido registrarte, se muestra el formulario de login o las actividades del usuario logged
     empty($_SESSION['user'])
         ? require_once realpath('views/user/login.php')
         : require_once realpath('views/activity/index.php');

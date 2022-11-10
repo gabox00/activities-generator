@@ -1,3 +1,4 @@
+<!--cabecera que incluye el navbar y el logout del usuario-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
     <div>
         <a class="navbar-brand" href="index.php" style="margin-left: 10px">IFP DAW</a>

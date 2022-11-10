@@ -1,4 +1,6 @@
+<!--Formulario de registro del usuario-->
 <div class="container">
+    <!--  Se muestran los errores de registro del usuario  -->
     <div>
         <?php if(!empty($_SESSION['errors']['user']['register'])): ?>
 
@@ -18,6 +20,7 @@
 
         <?php endif; ?>
     </div>
+    <!--Formulario-->
     <div class="login-form h-100 d-flex justify-content-center <?=empty($_SESSION['errors']['user']['register']) ? 'align-items-center' : ''?>">
         <form action="?controller_option=UserController&method_option=register" method="post">
             <h2 class="text-center mb-3">Register</h2>

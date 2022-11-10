@@ -2,10 +2,20 @@
 
 namespace UF1\Controllers;
 use UF1\Models\User;
-use UF1\Models\Activity;
 
+/**
+ * Class RegisterController
+ * @package UF1\Controllers
+ */
 class UserController{
 
+    /**
+     * Metodo que se encarga de registrar un usuario en la base de datos
+     * recoge los datos del formulario, los valida y registra el usuario en la base de datos
+     * Tambien se encarga de guardar el error y guardar el usuario en la sesion
+     * FORM @POST ?controller_option=UserController&method_option=register
+     * @redirect index.php
+     */
     public function register(){
         session_start();
 
@@ -61,6 +71,13 @@ class UserController{
 
     }
 
+    /**
+     * Metodo que se encarga de loguear un usuario en la base de datos
+     * recoge los datos del formulario, los valida y loguea el usuario en la base de datos
+     * Tambien se encarga de guardar el error y guardar el usuario en la sesion
+     * FORM @POST ?controller_option=UserController&method_option=login
+     * @redirect index.php
+     */
     public function login(){
         session_start();
 
@@ -83,6 +100,11 @@ class UserController{
         HomeController::index();
     }
 
+    /**
+     * Metodo que se encarga de cerrar la sesion del usuario
+     * elimina la sesion del usuario y los errores en general
+     * @redirect index.php
+     */
     public function logout(){
         session_start();
         unset($_SESSION['user']);

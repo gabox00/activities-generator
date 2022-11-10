@@ -1,4 +1,6 @@
+<!--Formulario de login del usuario-->
 <div class="container">
+    <!--  Se muestran los errores de login del usuario  -->
     <div>
         <?php if(!empty($_SESSION['errors']['user']['login'])): ?>
             <div class="alert alert-danger mt-5" role="alert">
@@ -6,6 +8,7 @@
             </div>
         <?php endif; ?>
     </div>
+    <!--Formulario-->
     <div class="login-form h-100 d-flex justify-content-center <?=empty($_SESSION['errors']['user']['login']) ? 'align-items-center' : ''?>">
         <form action="?controller_option=UserController&method_option=login" method="post">
             <h2 class="text-center mb-3">Log in</h2>

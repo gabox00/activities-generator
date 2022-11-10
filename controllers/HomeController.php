@@ -2,8 +2,16 @@
 
 namespace UF1\Controllers;
 
+/**
+ * Class HomeController
+ * @package UF1\Controllers
+ */
 class HomeController
 {
+    /**
+     * Metodo que redirecciona a la vista home.php
+     * @redirect index.php
+     */
     public static function index()
     {
         $host = $_SERVER['HTTP_HOST'];

@@ -6,8 +6,19 @@ use UF1\Enums\ActivityPaymentMethod;
 use UF1\Enums\ActivityType;
 use UF1\Models\Activity;
 
+/**
+ * Class ActivityController
+ * @package UF1\Controllers
+ */
 class ActivityController
 {
+    /**
+     * Metodo que crea una actividad, recoge los datos del formulario POST
+     * los valida y crea la actividad
+     * Tambien se encarga de guardar el error y guardar la actividad en la sesion del usuario
+     * @redirect index.php
+     * FORM @POST ?controller_option=ActivityController&method_option=create
+     */
     public function create(){
         session_start();
 
@@ -36,6 +47,12 @@ class ActivityController
         HomeController::index();
     }
 
+    /**
+     * Metodo que borra una actividad, recoge el id de la actividad por GET y la borra
+     * Tambien se encarga de guardar el error y eliminar la actividad de la sesion del usuario
+     * @redirect index.php
+     * link <a> @GET ?controller_option=ActivityController&method_option=delete&id=1
+     */
     public function delete(){
         session_start();
 
@@ -55,6 +72,13 @@ class ActivityController
         HomeController::index();
     }
 
+    /**
+     * Metodo que edita una actividad, recoge los datos del formulario POST
+     * los valida y edita la actividad
+     * Tambien se encarga de guardar el error y editar la actividad en la sesion del usuario
+     * @redirect index.php
+     * FORM @POST ?controller_option=ActivityController&method_option=edit
+     */
     public function update(){
         session_start();
 

@@ -4,7 +4,7 @@ use UF1\Enums\ActivityPaymentMethod;
 use UF1\Enums\ActivityType;
 
 ?>
-
+<!--Muestra las actividades del usuario y tambien se encuentra el formulario de eliminacion y actualizacion de las actividades-->
 <div>
     <?php if(!empty($_SESSION['user']['activities'])): ?>
         <h3>Actividades</h3>
