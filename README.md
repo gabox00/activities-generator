@@ -13,3 +13,5 @@ IMPORTANTE: REINICIAR EL ORDENADOR
 - `composer update`
 
 ### Ejecutar el fichero ./database/database.sql en mysql para tener la base de datos y las tablas creadas
+
+## RECORDATORIO: PARA QUE EL PROYECTO FUNCIONE CORRECTAMENTE TIENE QUE ESTAR EL SERVIDOR DEL API activities-generator-api EN EJECUCIÓN

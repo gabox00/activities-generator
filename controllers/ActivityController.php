@@ -2,6 +2,7 @@
 
 namespace UF1\Controllers;
 
+use stdClass;
 use UF1\Enums\ActivityPaymentMethod;
 use UF1\Enums\ActivityType;
 use UF1\Models\Activity;
@@ -30,18 +31,43 @@ class ActivityController
         $description = $_POST['description-activity'] ?? null;
 
         if(!(empty($title) || empty($date) || empty($city) || empty($type) || empty($paymentMethod) || empty($description))) {
-            $activity = new Activity();
-            $activity->setUserId($_SESSION['user']['id']);
-            $activity->setTitle($title);
-            $activity->setDate($date);
-            $activity->setCity($city);
-            $activity->setType($type);
-            $activity->setPaymentMethod($paymentMethod);
-            $activity->setDescription($description);
-            $activity = $activity->save();
-            $activity
-                ? $_SESSION['user']['activities'][] = $activity
-                : $_SESSION['errors']['activity']['create'] = 'No se ha podido crear la actividad';
+            $json = new stdClass();
+            $json->user_id = $_SESSION['user']['id'];
+            $json->title = $title;
+            $json->date = $date;
+            $json->city = $city;
+            $json->type = $_POST['type-activity'];
+            $json->paymentMethod = $_POST['paymentMethod-activity'];
+            $json->description = $description;
+            $json = json_encode($json);
+
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/activities-generator-api/index.php';
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_POST => 1,
+                CURLOPT_POSTFIELDS => $json,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response = json_decode($response);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if($httpCode == 201){
+                $_SESSION['user']['activities'][] = $response;
+            }
+            else if($httpCode == 400){
+                $_SESSION['errors']['activity']['create'] = $response->error;
+            }
+            else{
+                $_SESSION['errors']['activity']['create'] = 'Error al crear la actividad';
+            }
         }
 
         HomeController::index();
@@ -59,15 +85,30 @@ class ActivityController
         $id = $_GET['id'] ?? null;
 
         if(!empty($id)){
-            $activityModel = new Activity();
-            $activity = $activityModel->getActivityById($id);
-            if($activity){
-                $activity->delete()
-                    ? $_SESSION['user']['activities'] = array_filter($_SESSION['user']['activities'], function($activity) use ($id){
-                        return $activity->getId() != $id;
-                    })
-                    : $_SESSION['errors']['activity']['delete'] = 'No se ha podido eliminar la actividad';
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/activities-generator-api/index.php?id=' . $id;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_CUSTOMREQUEST => "DELETE",
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response = json_decode($response);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if($httpCode == 200){
+                $_SESSION['user']['activities'] = array_filter($_SESSION['user']['activities'], function($activity) use ($id){
+                    return $activity->id != $id;
+                });
             }
+            else if($httpCode == 400){
+                $_SESSION['errors']['activity']['delete'] = $response->error;
+            }
+            else{
+                $_SESSION['errors']['activity']['delete'] = 'Error al borrar la actividad';
+            }
+
         }
         HomeController::index();
     }
@@ -91,20 +132,44 @@ class ActivityController
         $description = $_POST['description-activity'] ?? null;
 
         if(!(empty($id) || empty($title) || empty($date) || empty($city) || empty($type) || empty($paymentMethod) || empty($description))) {
-            $activity = new Activity();
-            $activity = $activity->getActivityById($id);
-            $activity->setTitle($title);
-            $activity->setDate($date);
-            $activity->setCity($city);
-            $activity->setType($type);
-            $activity->setPaymentMethod($paymentMethod);
-            $activity->setDescription($description);
-            $activityUpdated = $activity->update();
-            $activityUpdated
-                ? $_SESSION['user']['activities'] = array_map(function($activity) use ($id,$activityUpdated){
-                    return $activity->getId() == $id ? $activityUpdated : $activity;
-                }, $_SESSION['user']['activities'])
-                : $_SESSION['errors']['activity']['update'] = 'No se ha podido actualizar la actividad';
+            $json = new stdClass();
+            $json->title = $title;
+            $json->date = $date;
+            $json->city = $city;
+            $json->type = $_POST['type-activity'];
+            $json->paymentMethod = $_POST['paymentMethod-activity'];
+            $json->description = $description;
+            $json = json_encode($json);
+
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/activities-generator-api/index.php?id=' . $id;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "PUT",
+                CURLOPT_POSTFIELDS => $json,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response = json_decode($response);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if($httpCode == 200){
+                $_SESSION['user']['activities'] = array_map(function($activity) use ($id,$response){
+                    return $activity->id == $id ? $response : $activity;
+                }, $_SESSION['user']['activities']);
+            }
+            else if($httpCode == 400){
+                $_SESSION['errors']['activity']['update'] = $response->error;
+            }
+            else{
+                $_SESSION['errors']['activity']['update'] = 'No se ha podido actualizar la actividad';
+            }
         }
 
         HomeController::index();

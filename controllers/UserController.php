@@ -62,7 +62,7 @@ class UserController{
             $_SESSION['user'] = [
                 'id' => $user->getId(),
                 'name' => $user->getName(),
-                'activities' => $user->getActivities()
+                'activities' => []
             ];
             unset($_SESSION['errors']['user']['login']);
         }
@@ -86,10 +86,30 @@ class UserController{
 
         $userModel = new User();
         if($user = $userModel->login($email, $password)){
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/activities-generator-api/index.php?user_id=' . $user->getId();
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response = json_decode($response);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            $activities = [];
+            if($httpCode == 200){
+                $activities = $response;
+            }
             $_SESSION['user'] = [
                 'id' => $user->getId(),
                 'name' => $user->getName(),
-                'activities' => $user->getActivities()
+                'activities' => $activities
             ];
             unset($_SESSION['errors']['user']['login']);
         }
